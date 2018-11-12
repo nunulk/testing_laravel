@@ -32,6 +32,8 @@ jobs:
     steps:
       - checkout
 
+      - run: sudo docker-php-ext-install pdo_mysql
+
       # Download and cache dependencies
       - restore_cache:
           keys:
