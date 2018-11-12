@@ -9,13 +9,22 @@ jobs:
       # specify the version you desire here
       - image: circleci/php:7.1-browsers
         environment:
-          - APP_ENV=testing
-          - APP_KEY=base64:2jlVzlGX4Yh4ooWODU4hinSatypNveXuFXPvBMwkKxM=
+          - APP_ENV: testing
+          - APP_KEY: base64:2jlVzlGX4Yh4ooWODU4hinSatypNveXuFXPvBMwkKxM=
+          - DB_CONNECTION: mysql_testing
+          - DB_DATABASE_TESTING: testing_laravel_test
+          - DB_USERNAME_TESTING: test
+          - DB_PASSWORD_TESTING: test
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
       - image: circleci/mysql:5.7
+        environment:
+          - MYSQL_ALLOW_EMPTY_PASSWORD: true
+          - MYSQL_DATABASE: testing_laravel_test
+          - MYSQL_USER: test
+          - MYSQL_PASSWORD: test
 
     working_directory: ~/repo
 
@@ -36,5 +45,7 @@ jobs:
             - ./vendor
           key: v1-dependencies-{{ checksum "composer.json" }}
         
+      - run: php artisan migrate --database=mysql_testing
+
       # run tests!
       - run: ./vendor/bin/phpunit
