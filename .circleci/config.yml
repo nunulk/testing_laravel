@@ -49,7 +49,7 @@ jobs:
           key: v1-dependencies-{{ checksum "composer.json" }}
 
       # wait for db
-      - run: dockerize -wait tcp://localhost:3306 -timeout 1m
+      # - run: dockerize -wait tcp://localhost:3306 -timeout 1m
   
       - run: php artisan migrate --database=mysql_testing
 
