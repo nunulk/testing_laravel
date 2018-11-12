@@ -8,6 +8,9 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/php:7.1-browsers
+        environment:
+          - APP_ENV=testing
+          - APP_KEY=base64:2jlVzlGX4Yh4ooWODU4hinSatypNveXuFXPvBMwkKxM=
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
