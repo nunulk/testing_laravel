@@ -25,6 +25,8 @@ jobs:
           - MYSQL_DATABASE: testing_laravel_test
           - MYSQL_USER: test
           - MYSQL_PASSWORD: test
+          - MYSQL_ROOT_HOST: %
+          - TZ: Asia/Tokyo
 
     working_directory: ~/repo
 
@@ -44,7 +46,10 @@ jobs:
           paths:
             - ./vendor
           key: v1-dependencies-{{ checksum "composer.json" }}
-        
+
+      # wait for db
+      - run: dockerize -wait tcp://localhost:3306 -timeout 1m
+  
       - run: php artisan migrate --database=mysql_testing
 
       # run tests!
